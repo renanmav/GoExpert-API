@@ -8,7 +8,7 @@ import (
 
 var (
 	productName  = "Test Product"
-	productPrice = 100
+	productPrice = 100.0
 )
 
 func TestProduct_NewProduct(t *testing.T) {
