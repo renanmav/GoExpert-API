@@ -24,7 +24,8 @@ type Product struct {
 
 // ValidateProduct validates the product
 func (p *Product) ValidateProduct() error {
-	if p.ID.String() == "" {
+	var emptyID = entity.ID{}
+	if p.ID.String() == emptyID.String() || p.ID.String() == "" {
 		return ErrIDIsRequired
 	}
 	if _, err := entity.ParseID(p.ID.String()); err != nil {
