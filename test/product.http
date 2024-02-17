@@ -10,3 +10,23 @@ Content-Type: application/json
 
 GET http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
 Content-Type: application/json
+
+###
+
+PUT http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
+Content-Type: application/json
+
+{
+  "name": "Product Test Updated",
+  "price": 20.5
+}
+
+###
+
+DELETE http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
+Content-Type: application/json
+
+###
+
+GET http://localhost:8000/products
+Content-Type: application/json

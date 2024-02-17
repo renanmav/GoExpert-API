@@ -33,6 +33,9 @@ func main() {
 
 	router.Post("/products", productHandler.CreateProduct)
 	router.Get("/products/{id}", productHandler.GetProduct)
+	router.Get("/products", productHandler.GetProducts)
+	router.Put("/products/{id}", productHandler.UpdateProduct)
+	router.Delete("/products/{id}", productHandler.DeleteProduct)
 
 	err = http.ListenAndServe(":"+config.WebServerPort, router)
 	if err != nil {
