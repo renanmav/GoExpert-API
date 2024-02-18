@@ -25,7 +25,7 @@ func NewProductHandler(db database.ProductInterface) *ProductHandler {
 // @Tags products
 // @Accept json
 // @Produce json
-// @Param product body CreateProductInput true "Product to create"
+// @Param request body dto.CreateProductInput true "Product to create"
 // @Success 201 {string} string "Product created"
 // @Failure 400 {string} string "Bad request"
 // @Failure 500 {string} string "Internal server error"

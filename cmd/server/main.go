@@ -5,9 +5,11 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/jwtauth"
 	"github.com/renanmav/GoExpert-API/configs"
+	_ "github.com/renanmav/GoExpert-API/docs"
 	"github.com/renanmav/GoExpert-API/internal/entity"
 	"github.com/renanmav/GoExpert-API/internal/infra/database"
 	"github.com/renanmav/GoExpert-API/internal/infra/webserver/handlers"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"net/http"
@@ -56,6 +58,8 @@ func main() {
 		r.Put("/{id}", productHandler.UpdateProduct)
 		r.Delete("/{id}", productHandler.DeleteProduct)
 	})
+
+	router.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:"+config.WebServerPort+"/docs/doc.json")))
 
 	err = http.ListenAndServe(":"+config.WebServerPort, router)
 	if err != nil {

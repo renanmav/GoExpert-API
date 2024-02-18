@@ -62,7 +62,7 @@ func (uh *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param user body CreateUserInput true "User to create"
+// @Param request body dto.CreateUserInput true "User to create"
 // @Success 201 {string} string "User created"
 // @Failure 400 {string} string "Bad request"
 // @Failure 500 {string} string "Internal server error"
