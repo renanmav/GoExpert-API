@@ -19,6 +19,17 @@ func NewProductHandler(db database.ProductInterface) *ProductHandler {
 	return &ProductHandler{ProductDB: db}
 }
 
+// CreateProduct godoc
+// @Summary Create a product
+// @Description Create a product
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param product body CreateProductInput true "Product to create"
+// @Success 201 {string} string "Product created"
+// @Failure 400 {string} string "Bad request"
+// @Failure 500 {string} string "Internal server error"
+// @Router /products [post]
 func (ph *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product dto.CreateProductInput
 	err := json.NewDecoder(r.Body).Decode(&product)

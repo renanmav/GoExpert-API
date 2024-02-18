@@ -23,7 +23,9 @@ func main() {
 		panic(err)
 	}
 
+	userDB := database.NewUserDB(db)
 	productDB := database.NewProductDB(db)
+	userHandler := handlers.NewUserHandler(userDB)
 	productHandler := handlers.NewProductHandler(productDB)
 
 	router := chi.NewRouter()
@@ -31,11 +33,17 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 
-	router.Post("/products", productHandler.CreateProduct)
-	router.Get("/products/{id}", productHandler.GetProduct)
-	router.Get("/products", productHandler.GetProducts)
-	router.Put("/products/{id}", productHandler.UpdateProduct)
-	router.Delete("/products/{id}", productHandler.DeleteProduct)
+	router.Route("/users", func(r chi.Router) {
+		r.Post("/", userHandler.CreateUser)
+	})
+
+	router.Route("/products", func(r chi.Router) {
+		r.Post("/", productHandler.CreateProduct)
+		r.Get("/{id}", productHandler.GetProduct)
+		r.Get("/", productHandler.GetProducts)
+		r.Put("/{id}", productHandler.UpdateProduct)
+		r.Delete("/{id}", productHandler.DeleteProduct)
+	})
 
 	err = http.ListenAndServe(":"+config.WebServerPort, router)
 	if err != nil {
