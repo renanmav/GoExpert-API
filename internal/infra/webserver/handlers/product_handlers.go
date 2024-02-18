@@ -30,6 +30,7 @@ func NewProductHandler(db database.ProductInterface) *ProductHandler {
 // @Failure 400 {string} string "Bad request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /products [post]
+// @Security ApiKeyAuth
 func (ph *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product dto.CreateProductInput
 	err := json.NewDecoder(r.Body).Decode(&product)
@@ -105,6 +106,19 @@ func (ph *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) 
 	w.WriteHeader(http.StatusOK)
 }
 
+// GetProducts godoc
+// @Summary Get products
+// @Description Get products
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param page query int false "Page number"
+// @Param limit query int false "Items per page"
+// @Param sort query string false "Sort by"
+// @Success 200 {array} entity.Product
+// @Failure 500 {string} string "Internal server error"
+// @Router /products [get]
+// @Security ApiKeyAuth
 func (ph *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	pageParam := r.URL.Query().Get("page")
 	page, err := strconv.Atoi(pageParam)

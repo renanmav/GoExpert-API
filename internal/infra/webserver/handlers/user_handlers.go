@@ -25,8 +25,19 @@ func NewUserHandler(db database.UserInterface, config *configs.Config) *UserHand
 	}
 }
 
+// GetJWT godoc
+// @Summary Get a JWT
+// @Description Get a JWT
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body dto.GetJWTInput true "User to authenticate"
+// @Success 200 {object} dto.GetJWTOutput
+// @Failure 400 {string} string "Bad request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /users/generate_token [post]
 func (uh *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
-	var user dto.CreateUserInput
+	var user dto.GetJWTInput
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -46,11 +57,7 @@ func (uh *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 		"exp": time.Now().Add(time.Minute * time.Duration(uh.JwtExpiresIn)).Unix(),
 	}
 	_, tokenString, _ := uh.Jwt.Encode(payload)
-	response := struct {
-		AccessToken string `json:"access_token"`
-	}{
-		AccessToken: tokenString,
-	}
+	response := dto.GetJWTOutput{AccessToken: tokenString}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
