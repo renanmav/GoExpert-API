@@ -1,6 +1,7 @@
 ### Create product
 POST http://localhost:8000/products
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDAxMjEsInN1YiI6IjcwNjkyZGVmLWY5YjItNGM4Zi05ZTMzLTUxNTNjOWIzYzM3ZiJ9.vnuQK8-TsRryo2V1hfSZRIbw7YK7qDJXOYGx5oQCloA
 
 {
   "name": "Product Test",
@@ -31,3 +32,4 @@ Content-Type: application/json
 ### Get all products paginated and sorted
 GET http://localhost:8000/products?limit=10&page=1sort=asc
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDAxMjEsInN1YiI6IjcwNjkyZGVmLWY5YjItNGM4Zi05ZTMzLTUxNTNjOWIzYzM3ZiJ9.vnuQK8-TsRryo2V1hfSZRIbw7YK7qDJXOYGx5oQCloA

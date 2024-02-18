@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/jwtauth"
 	"github.com/renanmav/GoExpert-API/configs"
 	"github.com/renanmav/GoExpert-API/internal/entity"
 	"github.com/renanmav/GoExpert-API/internal/infra/database"
@@ -39,6 +40,8 @@ func main() {
 	})
 
 	router.Route("/products", func(r chi.Router) {
+		r.Use(jwtauth.Verifier(config.TokenAuth))
+		r.Use(jwtauth.Authenticator)
 		r.Post("/", productHandler.CreateProduct)
 		r.Get("/{id}", productHandler.GetProduct)
 		r.Get("/", productHandler.GetProducts)

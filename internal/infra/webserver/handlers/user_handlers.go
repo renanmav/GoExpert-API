@@ -20,7 +20,7 @@ type UserHandler struct {
 func NewUserHandler(db database.UserInterface, config *configs.Config) *UserHandler {
 	return &UserHandler{
 		UserDB:       db,
-		Jwt:          jwtauth.New("HS256", []byte(config.JWTSecret), nil),
+		Jwt:          config.TokenAuth,
 		JwtExpiresIn: config.JWTExpiresIn,
 	}
 }

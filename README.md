@@ -10,6 +10,9 @@ To run this API, follow these commands:
 # Get into cmd/server
 cd cmd/server
 
+# Copy .env.example to .env
+cp .env.example .env
+
 # Run the server
 go run main.go
 ```
