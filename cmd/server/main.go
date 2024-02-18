@@ -13,6 +13,14 @@ import (
 	"net/http"
 )
 
+// @title GoExpert API
+// @version 1.0
+// @description Product API with authentication
+// @host localhost:8000
+// @BasePath /
+// @securityDefinitions.apiKey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	config := configs.LoadConfig(".")
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
