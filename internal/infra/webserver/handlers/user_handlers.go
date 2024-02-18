@@ -2,18 +2,58 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/go-chi/jwtauth"
+	"github.com/renanmav/GoExpert-API/configs"
 	"github.com/renanmav/GoExpert-API/internal/dto"
 	"github.com/renanmav/GoExpert-API/internal/entity"
 	"github.com/renanmav/GoExpert-API/internal/infra/database"
 	"net/http"
+	"time"
 )
 
 type UserHandler struct {
-	UserDB database.UserInterface
+	UserDB       database.UserInterface
+	Jwt          *jwtauth.JWTAuth
+	JwtExpiresIn int
 }
 
-func NewUserHandler(db database.UserInterface) *UserHandler {
-	return &UserHandler{UserDB: db}
+func NewUserHandler(db database.UserInterface, config *configs.Config) *UserHandler {
+	return &UserHandler{
+		UserDB:       db,
+		Jwt:          jwtauth.New("HS256", []byte(config.JWTSecret), nil),
+		JwtExpiresIn: config.JWTExpiresIn,
+	}
+}
+
+func (uh *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
+	var user dto.CreateUserInput
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	u, err := uh.UserDB.FindByEmail(user.Email)
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	if !u.ValidatePassword(user.Password) {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	payload := map[string]interface{}{
+		"sub": u.ID.String(),
+		"exp": time.Now().Add(time.Minute * time.Duration(uh.JwtExpiresIn)).Unix(),
+	}
+	_, tokenString, _ := uh.Jwt.Encode(payload)
+	response := struct {
+		AccessToken string `json:"access_token"`
+	}{
+		AccessToken: tokenString,
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }
 
 // CreateUser godoc

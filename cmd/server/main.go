@@ -25,7 +25,7 @@ func main() {
 
 	userDB := database.NewUserDB(db)
 	productDB := database.NewProductDB(db)
-	userHandler := handlers.NewUserHandler(userDB)
+	userHandler := handlers.NewUserHandler(userDB, config)
 	productHandler := handlers.NewProductHandler(productDB)
 
 	router := chi.NewRouter()
@@ -35,6 +35,7 @@ func main() {
 
 	router.Route("/users", func(r chi.Router) {
 		r.Post("/", userHandler.CreateUser)
+		r.Post("/generate_token", userHandler.GetJWT)
 	})
 
 	router.Route("/products", func(r chi.Router) {
