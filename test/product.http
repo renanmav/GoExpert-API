@@ -1,18 +1,17 @@
+### Create product
 POST http://localhost:8000/products
 Content-Type: application/json
 
 {
   "name": "Product Test",
-  "price": 10.5
+  "price": 4.20
 }
 
-###
-
+### Get product by id
 GET http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
 Content-Type: application/json
 
-###
-
+### Update product by id
 PUT http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
 Content-Type: application/json
 
@@ -21,12 +20,14 @@ Content-Type: application/json
   "price": 20.5
 }
 
-###
-
+### Delete product by id
 DELETE http://localhost:8000/products/de56e5a5-ba17-442d-bc30-9d57896b2154
 Content-Type: application/json
 
-###
-
+### Get all products
 GET http://localhost:8000/products
+Content-Type: application/json
+
+### Get all products paginated and sorted
+GET http://localhost:8000/products?limit=10&page=1sort=asc
 Content-Type: application/json
